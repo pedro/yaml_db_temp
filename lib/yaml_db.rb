@@ -4,19 +4,19 @@ require 'active_record'
 
 
 module YamlDb
-	def self.dump(env, filename)
+	def self.dump(env, io)
 		verify_utf8(env)
 
 		disable_logger
-		YamlDb::Dump.dump(File.new(filename, "w"))
+		YamlDb::Dump.dump(io)
 		reenable_logger
 	end
 
-	def self.load(env, filename)
+	def self.load(env, io)
 		verify_utf8(env)
 
 		disable_logger
-		YamlDb::Load.load(File.new(filename, "r"))
+		YamlDb::Load.load(io)
 		reenable_logger
 	end
 
