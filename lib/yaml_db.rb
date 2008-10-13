@@ -4,16 +4,16 @@ require 'active_record'
 
 
 module YamlDb
-	def self.dump(filename)
-		verify_utf8
+	def self.dump(env, filename)
+		verify_utf8(env)
 
 		disable_logger
 		YamlDb::Dump.dump(File.new(filename, "w"))
 		reenable_logger
 	end
 
-	def self.load(filename)
-		verify_utf8
+	def self.load(env, filename)
+		verify_utf8(env)
 
 		disable_logger
 		YamlDb::Load.load(File.new(filename, "r"))
@@ -31,15 +31,13 @@ module YamlDb
 
 	class EncodingException < RuntimeError; end
 
-	def self.verify_utf8
-		raise "RAILS_ENV is not defined" unless defined?(RAILS_ENV)
-
-		unless ActiveRecord::Base.configurations[RAILS_ENV].has_key?('encoding')
-			raise EncodingException, "Your database.yml configuration needs to specify encoding"
+	def self.verify_utf8(env)
+		unless ActiveRecord::Base.configurations[env].has_key?('encoding')
+			raise EncodingException, "Your database.yml configuration needs to specify encoding for the env #{env}"
 		end
 
-		unless ['unicode', 'utf8'].include?(ActiveRecord::Base.configurations[RAILS_ENV]['encoding'])
-			raise EncodingException, "Your database encoding must be utf8 (mysql) or unicode (postgres)"
+		unless ['unicode', 'utf8'].include?(ActiveRecord::Base.configurations[env]['encoding'])
+			raise EncodingException, "Your database encoding must be utf8 (mysql) or unicode (postgres) for env #{env}"
 		end
 
 		true
