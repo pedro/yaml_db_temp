@@ -1,13 +1,18 @@
 = YamlDb
 
-YamlDb is a database-independent format for dumping and restoring data.  It complements the the database-independent schema format found in db/schema.rb.  The data is saved into db/data.yml.
+YamlDb is a command line utility and a Rails plugin to dump and restore data from apps using ActiveRecord. For Rails apps, it add rake tasks that complements the the database-independent schema format found in db/schema.rb.  The data is saved into db/data.yml.
 
-This can be used as a replacement for mysqldump or pg_dump, but only for the databases typically used by Rails apps.  Users, permissions, schemas, triggers, and other advanced database features are not supported - by design.
+This can be used as a replacement for mysqldump or pg_dump, but only for the databases typically used by AR apps. Users, permissions, schemas, triggers, and other advanced database features are not supported - by design.
 
 Any database that has an ActiveRecord adapter should work.
 
 == Usage
 
+=== Command Line
+yamldb [optional app path] dump [path. if omitted will dump to STDOUT]
+yamldb [optional app path] load [path]
+
+=== Rails
 rake db:data:dump   ->   Dump contents of Rails database to db/data.yml
 rake db:data:load   ->   Load contents of db/data.yml into the database
 
@@ -17,13 +22,13 @@ Further, there are tasks db:dump and db:load which do the entire database (the e
 
 One common use would be to switch your data from one database backend to another.  For example, let's say you wanted to switch from SQLite to MySQL.  You might execute the following steps:
 
-1. rake db:dump
+1. yamldb dump myapp.yml
 
-2. Edit config/database.yml and change your adapter to mysql, set up database params
+2. Edit database.yml and change your adapter to mysql, set up database params
 
 3. mysqladmin create [database name]
 
-4. rake db:load
+4. yamldb load myapp.yml
 
 == Credits
 

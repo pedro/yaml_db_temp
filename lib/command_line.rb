@@ -15,8 +15,8 @@ class CommandLine
 		puts "Could not connect to your database via ActiveRecord"
 		puts "Run in the root of your Rails app or set db access in ENV"
 	rescue InvalidUsage
-		puts "Usage: yaml_db [app location] load [dump file]"
-		puts "       yaml_db [app location] dump [output file or stdout]"
+		puts "Usage: yamldb [optional app path] dump [path. if omitted will dump to STDOUT]"
+		puts "       yamldb [optional app path] load [path]"
 	ensure
 		ActiveRecord::Base.connection.disconnect! rescue nil
 	end
