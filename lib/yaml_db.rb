@@ -33,11 +33,11 @@ module YamlDb
 
 	def self.verify_utf8(env)
 		unless ActiveRecord::Base.configurations[env].has_key?('encoding')
-			raise EncodingException, "Your database.yml configuration needs to specify encoding for the env #{env}"
+			raise EncodingException, "Your database.yml configuration needs to specify encoding for #{env}"
 		end
 
 		unless ['unicode', 'utf8'].include?(ActiveRecord::Base.configurations[env]['encoding'])
-			raise EncodingException, "Your database encoding must be utf8 (mysql) or unicode (postgres) for env #{env}"
+			raise EncodingException, "Your database encoding must be utf8 (mysql) or unicode (postgres) for #{env}"
 		end
 
 		true
