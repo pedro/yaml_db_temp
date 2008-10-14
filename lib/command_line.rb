@@ -76,6 +76,7 @@ class CommandLine
 			'database' => ENV['DATABASE'],
 			'username' => ENV['ROLE'] || ENV['USERNAME'],
 			'password' => ENV['PASSWORD'] || '',
+			'encoding' => ENV['ENCODING']
 		}
 	end
 
